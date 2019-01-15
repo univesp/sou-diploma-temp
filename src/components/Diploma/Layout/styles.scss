@@ -15,7 +15,6 @@
 }
 
 .diploma {
-	page-break-after: always;
 	box-sizing: border-box;
 	font-family: 'Opens Sans', sans-serif;
 	margin: 0;
@@ -23,6 +22,8 @@
 	width: 297mm;
 	height: calc(210mm * 2);
 	.front {
+		page-break-after: always;
+		box-sizing: border-box;
 		width: 297mm;
 		height: 210mm;
 
@@ -81,9 +82,10 @@
 	}
 
 	.back {
+		page-break-after: always;
 		width: 297mm;
 		height: 210mm;
-		padding: 5vh;
+		padding: 0 5vh;
 
 		.university {
 			margin: 0;
@@ -110,6 +112,7 @@
 			&.-small {
 				letter-spacing: 0.005rem;
 				font-size: 12px;
+				margin-top: 55px;
 			}
 		}
 		.zone {
@@ -118,15 +121,15 @@
 		}
 		.QR {
 			position: absolute;
-			bottom: 90px;
+			bottom: 70px;
 			right: 0;
 		}
 		.area {
 			display: inline-block;
 			border: 0.02px solid black;
-			margin-top: 50px;
+			margin-top: 80px;
 			margin-left: 20px;
-			padding: 1rem 2rem;
+			padding: 2.5rem 2rem;
 			text-align: left;
 			&.-name {
 				height: 50px;
@@ -139,13 +142,13 @@
 					margin: auto;
 					width: 80%;
 					border-top: 1px solid black;
-					margin-top: 30px;
+					margin-top: 50px;
 					span {
 						display: block;
 						font-weight: bold;
 					}
 					&:first-of-type {
-						margin-top: 30px;
+						margin-top: 70px;
 						margin-bottom: 15px;
 					}
 				}

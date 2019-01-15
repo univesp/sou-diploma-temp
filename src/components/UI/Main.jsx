@@ -1,8 +1,10 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const UIMain = styled.main`
-  width: 100%;
-  height: 100%;
-`
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	padding: 2% 5%;
+`;
 
-export default UIMain
+export default UIMain;

@@ -1,7 +1,5 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-const UIThead = styled.thead`
-  font-weight: bold;
-`
+const UIThead = styled.thead`font-weight: bold;`;
 
-export default UIThead
+export default UIThead;
