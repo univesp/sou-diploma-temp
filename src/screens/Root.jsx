@@ -6,7 +6,7 @@ const ScreensDiplomaList = lazy(() => import('./Diploma/List'))
 const Root = () => (
   <Router>
     <Switch>
-      <Suspense fallback={<h1>Carregando...</h1>}>
+      <Suspense fallback={<p>Carregando...</p>}>
         <Route path="/diploma/list" component={ScreensDiplomaList} />
       </Suspense>
     </Switch>

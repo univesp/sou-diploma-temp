@@ -1,5 +1,7 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components';
 
-const UIInput = styled.input``;
+const UIInput = styled.input`
+    ${(props) => props.hide && css`display: none;`};
+`;
 
-export default UIInput
+export default UIInput;
