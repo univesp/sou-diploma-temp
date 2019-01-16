@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import Pagination from 'react-js-pagination';
 import ReactToPrint from 'react-to-print';
+import { withRouter } from "react-router-dom";
 
 import DiplomaLayout from '../Layout/Layout';
 
@@ -16,6 +17,7 @@ import { UISearchbox, UISearch } from '../../UI/Searchbox';
 import UIIcon from '../../UI/Icon';
 import UICheck from '../../UI/Check';
 import UIButton from '../../UI/Button';
+import UITitle from '../../UI/Title';
 
 import '../../../assets/styles/components/Pagination.scss';
 
@@ -55,23 +57,22 @@ class DiplomaList extends Component {
 		this.setState({
 			diplomas: search
 				? diplomas.map((chunk) =>
-						chunk.map(
-							(diploma) =>
-								RegExp(search, 'i').test(diploma.nome_aluno) ||
+					chunk.map(
+						(diploma) =>
+							(RegExp(search, 'i').test(diploma.nome_aluno) ||
 								RegExp(search, 'i').test(diploma.curso) ||
-								RegExp(search, 'i').test(diploma.RA)
-									? { ...diploma, check: !selectAll }
-									: diploma
-						)
+								RegExp(search, 'i').test(diploma.RA)) && !diploma.status_impress
+								? { ...diploma, check: !selectAll }
+								: diploma
 					)
-				: diplomas.map((chunk) => chunk.map((diploma) => ({ ...diploma, check: !selectAll }))),
+				)
+				: diplomas.map((chunk) => chunk.map((diploma) => (!diploma.status_impress ? { ...diploma, check: !selectAll } : diploma))),
 			selectAll: !selectAll
 		});
 	};
 
 	handleSelect = (ra) => {
 		const { diplomas } = this.state;
-		console.log(ra)
 		this.setState({
 			diplomas: diplomas.map((chunk) =>
 				chunk.map((diploma) => (diploma.RA === ra ? { ...diploma, check: !diploma.check } : diploma))
@@ -102,16 +103,17 @@ class DiplomaList extends Component {
 	};
 
 	afterPrint = () => {
+		const { history } = this.props;
 		const { diplomas } = this.state;
-		const ras = diplomas
+		const checkeds = diplomas
 			.reduce((diplomas, chunk) => diplomas.concat(chunk))
-			.filter((diploma) => diploma.check)
+			.filter((diploma) => diploma.check);
+		const ras = checkeds
 			.map((diploma) => diploma.RA);
-		console.log(ras);
 		ServicesDiplomaApi.patch('print-status', {
 			ras
 		})
-			.then((res) => console.log(res))
+			.then((res) => history.push('/diploma/verify', { checkeds }))
 			.catch((err) => console.error(err));
 	};
 
@@ -127,6 +129,9 @@ class DiplomaList extends Component {
 		const { diplomas, search, selectAll, totalItems, perPage, page } = this.state;
 		return (
 			<Fragment>
+				<UITitle>
+					Selecione quais alunos deseja imprimir o diploma
+				</UITitle>
 				<UISearchbox>
 					<UISearch type="text" onChange={this.handleSearch} value={search} />
 					<UIIcon icon={Search} />
@@ -165,17 +170,19 @@ class DiplomaList extends Component {
 											RegExp(search, 'i').test(diploma.RA)
 									)
 									.map((row) => (
-										<UITrow action="true" impress={row.status_impress} onClick={(e) => this.handleSelect(row.RA)} key={row.RA}>
+										<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
 											<UITcol>
-												<UILabel>
-													<UICheck checked={row.check} />
-													<UIInput
-														hide="true"
-														type="checkbox"
-														onChange={(e) => this.handleSelect(row.RA)}
-														checked={row.check}
-													/>
-												</UILabel>
+												{!row.status_impress && (
+													<Fragment>
+														<UICheck checked={row.check} />
+														<UIInput
+															hide="true"
+															type="checkbox"
+															onChange={(e) => this.handleSelect(row.RA)}
+															checked={row.check}
+														/>
+													</Fragment>
+												)}
 											</UITcol>
 											<UITcol>{row.RA}</UITcol>
 											<UITcol>{row.nome_aluno}</UITcol>
@@ -187,30 +194,34 @@ class DiplomaList extends Component {
 									))}
 							</Fragment>
 						) : (
-							<Fragment>
-								{diplomas[page] ? (
-									diplomas[page].map((row) => (
-										<UITrow action="true" impress={row.status_impress} onClick={(e) => this.handleSelect(row.RA)} key={row.RA}>
-											<UITcol>
-												<UICheck checked={row.check} />
-												<UIInput
-													hide="true"
-													type="checkbox"
-													onClick={(e) => this.handleSelect(row.RA)}
-													checked={row.check}
-												/>
-											</UITcol>
-											<UITcol>{row.RA}</UITcol>
-											<UITcol>{row.nome_aluno}</UITcol>
-											<UITcol>{row.year_entry_sem}</UITcol>
-											<UITcol>{row.data_conclusao && this.getLastSem(row.data_conclusao)}</UITcol>
-											<UITcol>{row.curso}</UITcol>
-											<UITcol>{row.process_number}</UITcol>
-										</UITrow>
-									))
-								) : null}
-							</Fragment>
-						)}
+								<Fragment>
+									{diplomas[page] ? (
+										diplomas[page].map((row) => (
+											<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
+												<UITcol>
+													{!row.status_impress && (
+														<Fragment>
+															<UICheck checked={row.check} />
+															<UIInput
+																hide="true"
+																type="checkbox"
+																onChange={(e) => this.handleSelect(row.RA)}
+																checked={row.check}
+															/>
+														</Fragment>
+													)}
+												</UITcol>
+												<UITcol>{row.RA}</UITcol>
+												<UITcol>{row.nome_aluno}</UITcol>
+												<UITcol>{row.year_entry_sem}</UITcol>
+												<UITcol>{row.data_conclusao && this.getLastSem(row.data_conclusao)}</UITcol>
+												<UITcol>{row.curso}</UITcol>
+												<UITcol>{row.process_number}</UITcol>
+											</UITrow>
+										))
+									) : null}
+								</Fragment>
+							)}
 					</UITbody>
 				</UITable>
 				{totalItems && !search ? (
@@ -248,4 +259,4 @@ class DiplomaList extends Component {
 	}
 }
 
-export default DiplomaList;
+export default withRouter(DiplomaList);
