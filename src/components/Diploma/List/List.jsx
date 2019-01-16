@@ -3,14 +3,12 @@ import _ from 'lodash';
 import Pagination from 'react-js-pagination';
 import ReactToPrint from 'react-to-print';
 import { withRouter } from "react-router-dom";
+import Alert from 'react-s-alert';
+import LoadingScreen from 'react-loading-screen';
 
 import DiplomaLayout from '../Layout/Layout';
 
-import UITable from '../../UI/Table';
-import UIThead from '../../UI/Thead';
-import UITbody from '../../UI/Tbody';
-import UITrow from '../../UI/Trow';
-import UITcol from '../../UI/Tcol';
+import { UITable, UIThead, UITbody, UITrow, UITcol } from '../../UI/Table';
 import UILabel from '../../UI/Label';
 import UIInput from '../../UI/Input';
 import { UISearchbox, UISearch } from '../../UI/Searchbox';
@@ -38,22 +36,31 @@ class DiplomaList extends Component {
 			perPage: 10,
 			totalItems: 0,
 			page: 0,
-			search: ''
+			search: '',
+			loading: true
 		};
 	}
 
 	componentDidMount() {
+		const { success } = this.props;
 		const { perPage } = this.state;
 		ServicesDiplomaApi.get('prints/all').then((res) => {
 			this.setState({
 				diplomas: _.chunk(res.data, perPage),
-				totalItems: res.data.length
+				totalItems: res.data.length,
+				loading: false
 			});
+			if (success) {
+				Alert.success('Processo de impressão finalizado!', {
+					position: 'bottom-right',
+					effect: 'slide'
+				});
+			}
 		});
 	}
 
 	handleSelectAll = () => {
-		const { search, diplomas, selectAll } = this.state;
+		const { search, page, diplomas, selectAll } = this.state;
 		this.setState({
 			diplomas: search
 				? diplomas.map((chunk) =>
@@ -66,17 +73,19 @@ class DiplomaList extends Component {
 								: diploma
 					)
 				)
-				: diplomas.map((chunk) => chunk.map((diploma) => (!diploma.status_impress ? { ...diploma, check: !selectAll } : diploma))),
+				: diplomas.map((chunk, index) => index === page ? chunk.map((diploma) => (!diploma.status_impress ? { ...diploma, check: !selectAll } : diploma)) : chunk),
 			selectAll: !selectAll
 		});
 	};
 
 	handleSelect = (ra) => {
-		const { diplomas } = this.state;
+		const { diplomas, page } = this.state;
+		const newDiplomas = diplomas.map((chunk) =>
+			chunk.map((diploma) => (diploma.RA === ra ? { ...diploma, check: !diploma.check } : diploma))
+		);
 		this.setState({
-			diplomas: diplomas.map((chunk) =>
-				chunk.map((diploma) => (diploma.RA === ra ? { ...diploma, check: !diploma.check } : diploma))
-			)
+			diplomas: newDiplomas,
+			selectAll: newDiplomas[page].every((diploma) => diploma.check || diploma.status_impress)
 		});
 	};
 
@@ -86,8 +95,12 @@ class DiplomaList extends Component {
 	};
 
 	handlePagination = (pageClick) => {
+		const { diplomas } = this.state;
 		const page = pageClick - 1;
-		this.setState({ page });
+		this.setState({ 
+			page,
+			selectAll: diplomas[page].every((diploma) => diploma.check || diploma.status_impress)
+		});
 	};
 
 	renderContent = () => {
@@ -95,8 +108,12 @@ class DiplomaList extends Component {
 	};
 
 	renderTrigger = () => {
+		const { diplomas } = this.state
+		const checkeds = diplomas.length ? diplomas
+			.reduce((diplomas, chunk) => diplomas.concat(chunk))
+			.filter((diploma) => diploma.check) : [];
 		return (
-			<UIButton>
+			<UIButton disabled={checkeds.length === 0}>
 				Imprimir
 			</UIButton>
 		);
@@ -113,7 +130,13 @@ class DiplomaList extends Component {
 		ServicesDiplomaApi.patch('print-status', {
 			ras
 		})
-			.then((res) => history.push('/diploma/verify', { checkeds }))
+			.then((res) => {
+				Alert.success('Processo de impressão iniciado, caso clicou em cancelar remova todos os alunos', {
+					position: 'bottom-right',
+					effect: 'slide'
+				});
+				history.push('/diploma/verify', { checkeds })
+			})
 			.catch((err) => console.error(err));
 	};
 
@@ -126,9 +149,12 @@ class DiplomaList extends Component {
 	};
 
 	render() {
-		const { diplomas, search, selectAll, totalItems, perPage, page } = this.state;
+		const { diplomas, loading, search, selectAll, totalItems, perPage, page } = this.state;
 		return (
-			<Fragment>
+			<LoadingScreen
+				loading={loading}
+				bgColor="#FFF"
+				spinnerColor="#ED3B48">
 				<UITitle>
 					Selecione quais alunos deseja imprimir o diploma
 				</UITitle>
@@ -170,7 +196,7 @@ class DiplomaList extends Component {
 											RegExp(search, 'i').test(diploma.RA)
 									)
 									.map((row) => (
-										<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
+										<UITrow action={!row.status_impress ? "true" : "false"} impress={row.status_impress ? "true" : "false"} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
 											<UITcol>
 												{!row.status_impress && (
 													<Fragment>
@@ -197,7 +223,7 @@ class DiplomaList extends Component {
 								<Fragment>
 									{diplomas[page] ? (
 										diplomas[page].map((row) => (
-											<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
+											<UITrow action={!row.status_impress ? "true" : "false"} impress={row.status_impress ? "true" : "false"} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
 												<UITcol>
 													{!row.status_impress && (
 														<Fragment>
@@ -254,7 +280,7 @@ class DiplomaList extends Component {
 					diplomas={diplomas.map((chunk) => chunk.filter((item) => item.check))}
 					ref={this.setRef}
 				/>
-			</Fragment>
+			</LoadingScreen>
 		);
 	}
 }

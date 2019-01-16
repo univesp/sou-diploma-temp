@@ -1,16 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter } from "react-router-dom";
 
-import UITable from '../../UI/Table';
-import UIThead from '../../UI/Thead';
-import UITbody from '../../UI/Tbody';
-import UITrow from '../../UI/Trow';
-import UITcol from '../../UI/Tcol';
-import UIInput from '../../UI/Input';
+import { UITable, UIThead, UITbody, UITrow, UITcol } from '../../UI/Table';
 import UICheck from '../../UI/Check';
 import UIButton from '../../UI/Button';
 import UITitle from '../../UI/Title';
 import UILabel from '../../UI/Label';
+import UIInput from '../../UI/Input';
 
 import ServicesDiplomaApi from '../../../services/DiplomaApi';
 
@@ -43,9 +39,11 @@ class DiplomaVerify extends Component {
 
   handleSelect = (ra) => {
     const { checkeds } = this.state;
+    const newCheckeds = checkeds.map((diploma) => (diploma.RA === ra ? { ...diploma, check: !diploma.check } : diploma));
     this.setState({
-      checkeds: checkeds.map((diploma) => (diploma.RA === ra ? { ...diploma, check: !diploma.check } : diploma))
-    });
+      checkeds: newCheckeds,
+      selectAll: newCheckeds.every((diploma) => diploma.check)
+    })
   };
 
   handleSubmit = () => {
@@ -55,7 +53,9 @@ class DiplomaVerify extends Component {
     ServicesDiplomaApi.patch('print-fail', {
       ras
     })
-      .then((res) => history.push('/diploma/list'))
+      .then((res) => {
+        history.push('/diploma/list', { success: true })
+      })
       .catch((err) => console.error(err));
   }
 

@@ -9,7 +9,7 @@ import UILogo from '../../components/UI/Logo'
 
 import Logo from '../../assets/imgs/logo-header.svg'
 
-const ScreensDiplomaList = () => (
+const ScreensDiplomaList = ({ location }) => (
   <Fragment>
     <UIHeader>
       <Link
@@ -20,7 +20,7 @@ const ScreensDiplomaList = () => (
       </Link>
     </UIHeader>
     <UIMain>
-      <DiplomaList />
+      <DiplomaList success={location && location.state && location.state.success ?  true : false} />
     </UIMain>
   </Fragment>
 )
