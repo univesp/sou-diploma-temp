@@ -19,8 +19,8 @@ const Root = () => (
             spinnerColor="#ED3B48"
           ><div /></LoadingScreen>
         }>
-          <Route path="/diploma/list" component={ScreensDiplomaList} />
-          <Route path="/diploma/verify" component={ScreensDiplomaVerify} />
+          <Route exact path="/" component={ScreensDiplomaList} />
+          <Route path="/verify" component={ScreensDiplomaVerify} />
         </Suspense>
       </Switch>
     </Router>

@@ -54,7 +54,7 @@ class DiplomaVerify extends Component {
       ras
     })
       .then((res) => {
-        history.push('/diploma/list', { success: true })
+        history.push('/', { success: true })
       })
       .catch((err) => console.error(err));
   }

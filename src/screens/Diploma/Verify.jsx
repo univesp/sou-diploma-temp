@@ -14,7 +14,7 @@ const ScreensDiplomaVerify = ({ location: { state } }) => (
     <UIHeader>
       <Link
         to={{
-          pathname: '/diploma/list'
+          pathname: '/'
         }} >
         <UILogo src={Logo} alt="UNIVESP" />
       </Link>

@@ -42,7 +42,7 @@ class DiplomaList extends Component {
 	}
 
 	componentDidMount() {
-		const { success } = this.props;
+		const { history, location } = this.props;
 		const { perPage } = this.state;
 		ServicesDiplomaApi.get('prints/all').then((res) => {
 			this.setState({
@@ -50,11 +50,15 @@ class DiplomaList extends Component {
 				totalItems: res.data.length,
 				loading: false
 			});
-			if (success) {
+			if (location && location.state && location.state.success) {
 				Alert.success('Processo de impressão finalizado!', {
 					position: 'bottom-right',
 					effect: 'slide'
 				});
+				history.replace({
+					pathname: location.pathname,
+					state: {}
+				})
 			}
 		});
 	}
@@ -135,7 +139,7 @@ class DiplomaList extends Component {
 					position: 'bottom-right',
 					effect: 'slide'
 				});
-				history.push('/diploma/verify', { checkeds })
+				history.push('/verify', { checkeds })
 			})
 			.catch((err) => console.error(err));
 	};
@@ -196,7 +200,7 @@ class DiplomaList extends Component {
 											RegExp(search, 'i').test(diploma.RA)
 									)
 									.map((row) => (
-										<UITrow action={!row.status_impress ? "true" : "false"} impress={row.status_impress ? "true" : "false"} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
+										<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
 											<UITcol>
 												{!row.status_impress && (
 													<Fragment>
@@ -223,7 +227,7 @@ class DiplomaList extends Component {
 								<Fragment>
 									{diplomas[page] ? (
 										diplomas[page].map((row) => (
-											<UITrow action={!row.status_impress ? "true" : "false"} impress={row.status_impress ? "true" : "false"} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
+											<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
 												<UITcol>
 													{!row.status_impress && (
 														<Fragment>

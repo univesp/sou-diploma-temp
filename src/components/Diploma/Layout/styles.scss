@@ -20,16 +20,14 @@
 
 .diploma {
 	box-sizing: border-box;
-	font-family: 'Opens Sans', sans-serif;
 	margin: 0;
 	padding: 0;
 	width: 297mm;
-	height: calc(210mm * 2);
+	height: 390mm;
 
 	.front {
 		overflow: hidden;
-		page-break-after: always;
-		page-break-before: always;
+		font-family: "Copperplate Gothic Light";
 		width: 297mm;
 		height: 210mm;
 		margin: 0;
@@ -61,21 +59,21 @@
 			.name {
 				text-transform: uppercase;
 				font-size: 1.8rem;
-				padding: 5px 0 0;
+				padding: 5px 0 10px;
 				color: #ed3b48;
 			}
 			.course {
 				display: block;
 				font-size: 1.5rem;
 				font-weight: bold;
-				margin: 25px auto;
+				margin: 25px auto 30px;
 				max-width: 550px;
 			}
 		}
 
 		.signatures {
 			display: flex;
-			margin-top: 60px;
+			margin-top: 50px;
 			.signature {
 				width: 22%;
 				text-align: center;
@@ -95,10 +93,12 @@
 	}
 
 	.back {
+		position: relative;
+		font-family: 'Nirmala UI';
 		box-sizing: border-box;
 		overflow: hidden;
 		width: 297mm;
-		height: 200mm;
+		height: 180mm;
 		margin: 0;
 		padding: 0;
 		padding-top: 3vh;
@@ -108,6 +108,7 @@
 			font-weight: bold;
 		}
 		.paragraph {
+			font-size: 12px;
 			margin: 0;
 			font-weight: 300;
 			&.-marginBottom {
@@ -127,7 +128,7 @@
 
 			&.-small {
 				letter-spacing: 0.005rem;
-				font-size: 12px;
+				font-size: 10px;
 				margin-top: 40px;
 			}
 		}
@@ -137,14 +138,14 @@
 		}
 		.QR {
 			position: absolute;
-			bottom: 15px;
+			bottom: 10px;
 			right: 2vh;
 		}
 		.area {
 			display: inline-block;
 			border: 0.02px solid black;
-			margin-top: 70px;
-			padding: 1.75rem 1rem;
+			margin-top: 50px;
+			padding: 2rem 1rem;
 			text-align: left;
 			&:first-of-type {
 				margin-left: 5vh;

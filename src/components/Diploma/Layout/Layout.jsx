@@ -105,19 +105,19 @@ class DiplomaLayout extends Component {
 							<div className="back">
 								<div className="recognized -small">
 									<p className="paragraph">
-										Fundação Universidade Virtual do Estado de São Paulo - CNPJ 17.455.396/0001-64
+										Universidade Virtual do Estado de São Paulo
 									</p>
 									<p className="paragraph">
-										Criação - Lei N° 14.836, de 20/07/2012 e São Paulo - CNPJ 17.455.396/0001-64
+										Criação - Lei N° 14.836, de 20/07/2012
 									</p>
 									<p className="paragraph">
 										Credenciamento no Conselho Estadual de Educação de São Paulo - Portaria
-										CEE-GP-120, de 22/03/2013, publicado no DOU de 23/03/2013, Seção 1, página 61
+										CEE-GP-120, de 22/03/2013
 									</p>
 
 									<p className="paragraph">
 										Credenciamento no Ministério da Eduacação para oferta de Cursos EAD-Portaria
-										N°945, de 18/09/2015, publicado no DOU de 21/09/2015, Seção 1, página 16
+										N°945, de 18/09/2015
 									</p>
 								</div>
 								<div className="recognized">
@@ -170,7 +170,7 @@ class DiplomaLayout extends Component {
 										<p className="paragraph -marginLeft">Verifique a</p>
 										<p className="paragraph -marginLeft">autenticidade</p>
 										<img
-											src={`https://chart.googleapis.com/chart?chs=128x128&cht=qr&chl=https://urldaunivesp.com.br/endpoint?ra=${diploma.RA}%26class_id=${diploma.class_id}`}
+											src={`https://chart.googleapis.com/chart?chs=128x128&cht=qr&chl=https://univesp.br/valida-diploma?ra=${diploma.RA}%26turma=${diploma.class_id}`}
 											alt="QRCode"
 										/>
 									</div>
