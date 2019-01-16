@@ -9,20 +9,22 @@ import UILogo from '../../components/UI/Logo'
 
 import Logo from '../../assets/imgs/logo-header.svg'
 
-const ScreensDiplomaList = () => (
-  <Fragment>
-    <UIHeader>
-      <Link
-        to={{
-          pathname: '/diploma/list'
-        }} >
-        <UILogo src={Logo} alt="UNIVESP" />
-      </Link>
-    </UIHeader>
-    <UIMain>
-      <DiplomaList />
-    </UIMain>
-  </Fragment>
-)
+const ScreensDiplomaList = ({ location }) => {
+  return (
+    <Fragment>
+      <UIHeader>
+        <Link
+          to={{
+            pathname: '/'
+          }} >
+          <UILogo src={Logo} alt="UNIVESP" />
+        </Link>
+      </UIHeader>
+      <UIMain>
+        <DiplomaList pathname={location.pathname} success={location && location.state && location.state.success ?  true : false} />
+      </UIMain>
+    </Fragment>
+    )
+}
 
 export default ScreensDiplomaList

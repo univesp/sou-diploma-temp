@@ -5,3 +5,10 @@ html {
   font-family: 'Open Sans', sans-serif;
   letter-spacing: 0.0325vw;
 }
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}

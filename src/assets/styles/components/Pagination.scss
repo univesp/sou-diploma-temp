@@ -1,0 +1,42 @@
+.pagination {
+    margin-top: 5vh;
+    display: inline-flex;
+    list-style: none;
+    justify-content: space-between;
+    .item-class {
+        font-weight: bold;
+        box-sizing: border-box;
+        text-align: center;
+        padding: 3px 0;
+        width: 22px;
+        height: 22px;
+        margin-right: 3px;
+        background-color: transparent;
+        cursor: pointer;
+        .link-class {
+            text-decoration: none;
+            color: #607989;
+        }
+    }
+    .disabled {
+        i {
+            background-color: #DFE6E8;
+        }
+    }
+    .item-special {
+        position: relative;
+        i {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #607989;
+        }
+    }
+    .active {
+        background-color: #ed3b48;
+        .link-class {
+            text-decoration: none;
+            color: #fff;            
+        }
+    }
+}

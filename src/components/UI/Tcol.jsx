@@ -1,5 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-const UITcol = styled.td``
+const UITcol = styled.td`
+    position: relative;
+    min-width: 25px;
+`;
 
-export default UITcol
+export default UITcol;
