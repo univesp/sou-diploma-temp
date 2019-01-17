@@ -15,7 +15,7 @@ const months = [
 	'dezembro'
 ];
 
-class DiplomaLayout extends Component {
+class CertificateLayout extends Component {
 	getState = (state) => {
 		switch (state) {
 			case 'Acre':
@@ -40,18 +40,19 @@ class DiplomaLayout extends Component {
 		}
 	};
 	render() {
-		const { diplomas } = this.props;
+		const { certificates } = this.props;
+
 		return (
 			<Fragment>
-				{diplomas.map((chunk) =>
+				{certificates.map((chunk) =>
 					chunk.map((diploma) => (
-						<div className="diploma" key={diploma.RA}>
+						<div className="diploma -seq" key={diploma.RA}>
 							<div className="front">
 								<div className="content">
 									<p className="paragraph">
 										A presidente da <span>Universidade Virtual do Estado de São Paulo</span>,
 									</p>
-									<p className="paragraph -marginBottom">no uso de suas atribuições, confere a</p>
+									<p className="paragraph -marginBottom">no uso de suas atribuições, outorga a</p>
 									<h1 className="name">{diploma.assumed_name || diploma.nome_aluno}</h1>
 									<p className="paragraph">de nacionalidade {diploma.Nacionalidade},</p>
 									<p className="paragraph">
@@ -65,18 +66,11 @@ class DiplomaLayout extends Component {
 										{diploma.birth_date ? new Date(diploma.birth_date).getFullYear() : ''} e natural
 										do Estado {this.getState(diploma.natural)} {diploma.natural},
 									</p>
-									<p className="paragraph">o grau de</p>
-									<h2 className="course">
-										{diploma.gender === 'M' ? 'Licenciado' : 'Licenciada'} em{' '}
-										{diploma.curso.split(' ')[2]}
-									</h2>
+									<p className="paragraph">o diploma do</p>
+									<h2 className="course">{diploma.seq_course}</h2>
 									<p className="paragraph">
-										obtido em {diploma.data_conclusao ? (
-											diploma.data_conclusao.split('/')[2]
-										) : (
-											''
-										)}{' '}
-										de{' '}
+										concluído em{' '}
+										{diploma.data_conclusao ? diploma.data_conclusao.split('/')[2] : ''} de{' '}
 										{diploma.data_conclusao ? (
 											months[Number(diploma.data_conclusao.split('/')[1]) - 1]
 										) : (
@@ -86,8 +80,7 @@ class DiplomaLayout extends Component {
 										de {diploma.curso}
 									</p>
 									<p className="paragraph -marginBottom">
-										para que possa gozar de todos os direitos e prerrogativas legais, outorga-lhe o
-										presente diploma.
+										para que possa gozar de todos os direitos e prerrogativas legais.
 									</p>
 									<p className="paragraph">
 										São Paulo, {new Date().getDate()} de {months[new Date().getMonth()]} de{' '}
@@ -109,7 +102,7 @@ class DiplomaLayout extends Component {
 							</div>
 							<div className="back">
 								<div className="recognized -small">
-									<p className="paragraph">Fundação Universidade Virtual do Estado de São Paulo</p>
+									<p className="paragraph">Universidade Virtual do Estado de São Paulo</p>
 									<p className="paragraph">Criação - Lei N° 14.836, de 20/07/2012</p>
 									<p className="paragraph">
 										Credenciamento no Conselho Estadual de Educação de São Paulo - Portaria
@@ -122,8 +115,11 @@ class DiplomaLayout extends Component {
 									</p>
 								</div>
 								<div className="recognized">
-									<p className="paragraph">Curso de {diploma.curso}</p>
-									<p className="paragraph">{diploma.Portaria}</p>
+									<p className="paragraph">
+										Curso Sequencial de Fundamentos da Docência nas Áreas de Matemática, Ciências
+										Naturais e Humanas
+									</p>
+									<p className="paragraph">{diploma.seq_portaria}</p>
 								</div>
 								<div className="zone">
 									<div className="area">
@@ -167,14 +163,6 @@ class DiplomaLayout extends Component {
 											</p>
 										</div>
 									)}
-									<div className="QR">
-										<p className="paragraph -marginLeft">Verifique a</p>
-										<p className="paragraph -marginLeft">autenticidade</p>
-										<img
-											src={`https://chart.googleapis.com/chart?chs=128x128&cht=qr&chl=https://univesp.br/valida-diploma?ra=${diploma.RA}%26turma=${diploma.class_id}`}
-											alt="QRCode"
-										/>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -185,4 +173,4 @@ class DiplomaLayout extends Component {
 	}
 }
 
-export default DiplomaLayout;
+export default CertificateLayout;
