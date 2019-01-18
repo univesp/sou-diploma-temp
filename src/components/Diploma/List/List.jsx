@@ -102,7 +102,7 @@ class DiplomaList extends Component {
 	};
 
 	getLastSem = (date) => {
-		const dateSplited = date.split('/');
+		const dateSplited = date.split('-');
 		return `${dateSplited[0]}.${Math.ceil(dateSplited[1] / 6)}`;
 	};
 

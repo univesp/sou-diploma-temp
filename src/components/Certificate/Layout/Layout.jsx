@@ -70,14 +70,23 @@ class CertificateLayout extends Component {
 									<h2 className="course">{diploma.seq_course}</h2>
 									<p className="paragraph">
 										concluído em{' '}
-										{diploma.data_conclusao ? diploma.data_conclusao.split('/')[2] : ''} de{' '}
-										{diploma.data_conclusao ? (
-											months[Number(diploma.data_conclusao.split('/')[1]) - 1]
+										{diploma.data_conclusao_certificado ? (
+											diploma.data_conclusao_certificado.split('/')[0]
 										) : (
 											''
 										)}{' '}
-										de {diploma.data_conclusao ? diploma.data_conclusao.split('/')[0] : ''} no curso
-										de {diploma.curso}
+										de{' '}
+										{diploma.data_conclusao_certificado ? (
+											months[Number(diploma.data_conclusao_certificado.split('/')[1]) - 1]
+										) : (
+											''
+										)}{' '}
+										de{' '}
+										{diploma.data_conclusao_certificado ? (
+											diploma.data_conclusao_certificado.split('/')[2]
+										) : (
+											''
+										)}
 									</p>
 									<p className="paragraph -marginBottom">
 										para que possa gozar de todos os direitos e prerrogativas legais.
@@ -89,10 +98,10 @@ class CertificateLayout extends Component {
 								</div>
 								<div className="signatures">
 									<p className="signature">
-										Prof.ª Dr.ª Cleide Marly Nébias <span>Diretora Acadêmica</span>
+										&nbsp;<span>Diretora Acadêmica</span>
 									</p>
 									<p className="signature">
-										Fernanda Gouveia <span>Presidenta</span>
+										&nbsp;<span>Presidente</span>
 									</p>
 									<p className="signature">
 										{diploma.assumed_name || diploma.nome_aluno}
@@ -102,23 +111,22 @@ class CertificateLayout extends Component {
 							</div>
 							<div className="back">
 								<div className="recognized -small">
-									<p className="paragraph">Universidade Virtual do Estado de São Paulo</p>
+									<p className="paragraph">
+										Fundação Universidade Virtual do Estado de São Paulo - CNPJ 17.455.396/0001-64
+									</p>
 									<p className="paragraph">Criação - Lei N° 14.836, de 20/07/2012</p>
 									<p className="paragraph">
 										Credenciamento no Conselho Estadual de Educação de São Paulo - Portaria
-										CEE-GP-120, de 22/03/2013
+										CEE-GP-120, de 22/03/2013, publicado no DO de 23/03/2013, Seção 1, Página 61
 									</p>
 
 									<p className="paragraph">
 										Credenciamento no Ministério da Eduacação para oferta de Cursos EAD-Portaria
-										N°945, de 18/09/2015
+										N°945, de 18/09/2015, publicado no DOU de 21/09/2015, Seção 1, página 16
 									</p>
 								</div>
 								<div className="recognized">
-									<p className="paragraph">
-										Curso Sequencial de Fundamentos da Docência nas Áreas de Matemática, Ciências
-										Naturais e Humanas
-									</p>
+									<p className="paragraph">{diploma.seq_course}</p>
 									<p className="paragraph">{diploma.seq_portaria}</p>
 								</div>
 								<div className="zone">

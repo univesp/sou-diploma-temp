@@ -60,7 +60,7 @@
 					display: block;
 					font-size: 1.5rem;
 					margin: 25px auto 30px;
-					max-width: 550px;
+					max-width: 590px;
 				}
 			}
 
@@ -116,7 +116,7 @@
 			.recognized {
 				width: 100%;
 				margin-top: 20px;
-				margin-left: 5vh;
+				margin-left: 7vh;
 
 				&.-small {
 					letter-spacing: 0.005rem;
@@ -127,11 +127,12 @@
 			.zone {
 				position: relative;
 				display: flex;
+				margin-left: 2vh;
 			}
 			.QR {
 				position: absolute;
 				bottom: 10px;
-				right: 2vh;
+				right: 4vh;
 			}
 			.area {
 				display: inline-block;
@@ -150,6 +151,7 @@
 					flex-flow: column;
 					.signature {
 						text-align: center;
+						font-size: 12px;
 						margin: auto;
 						width: 80%;
 						border-top: 1px solid black;
@@ -178,7 +180,7 @@
 					margin-bottom: 40px;
 				}
 				.content {
-					margin-top: calc(22% - 10px);
+					margin-top: calc(21% - 10px);
 				}
 			}
 		}
