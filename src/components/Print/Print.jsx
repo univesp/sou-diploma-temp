@@ -10,8 +10,8 @@ class Print extends Component {
 		const { data } = this.props;
 		return (
 			<div className="container">
-				<DiplomaLayout diplomas={data} />
 				<CertificateLayout certificates={data} />
+				<DiplomaLayout diplomas={data} />
 			</div>
 		);
 	}

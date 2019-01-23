@@ -71,19 +71,19 @@ class CertificateLayout extends Component {
 									<p className="paragraph">
 										concluído em{' '}
 										{diploma.data_conclusao_certificado ? (
-											diploma.data_conclusao_certificado.split('/')[0]
+											diploma.data_conclusao_certificado.split('-')[2]
 										) : (
 											''
 										)}{' '}
 										de{' '}
 										{diploma.data_conclusao_certificado ? (
-											months[Number(diploma.data_conclusao_certificado.split('/')[1]) - 1]
+											months[Number(diploma.data_conclusao_certificado.split('-')[1]) - 1]
 										) : (
 											''
 										)}{' '}
 										de{' '}
 										{diploma.data_conclusao_certificado ? (
-											diploma.data_conclusao_certificado.split('/')[2]
+											diploma.data_conclusao_certificado.split('-')[0]
 										) : (
 											''
 										)}
