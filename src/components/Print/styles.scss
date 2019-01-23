@@ -67,6 +67,7 @@
 			.signatures {
 				display: flex;
 				margin-top: 50px;
+				justify-content: space-between;
 				.signature {
 					width: 22%;
 					text-align: center;
@@ -77,8 +78,8 @@
 					&:first-child {
 						margin-left: 18%;
 					}
-					&:not(:last-child) {
-						margin-right: 6%;
+					&:last-child {
+						margin-right: calc(6% + 10px);
 					}
 				}
 			}
@@ -98,6 +99,9 @@
 			.university {
 				margin: 0;
 				font-weight: bold;
+				&.-marginBottom {
+					margin-bottom: 10px;
+				}
 			}
 			.paragraph {
 				font-size: 12px;

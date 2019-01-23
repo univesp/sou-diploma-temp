@@ -98,10 +98,7 @@ class CertificateLayout extends Component {
 								</div>
 								<div className="signatures">
 									<p className="signature">
-										&nbsp;<span>Diretora Acadêmica</span>
-									</p>
-									<p className="signature">
-										&nbsp;<span>Presidente</span>
+										Rodolfo Jardim de Azevedo<span>Presidente</span>
 									</p>
 									<p className="signature">
 										{diploma.assumed_name || diploma.nome_aluno}
@@ -114,10 +111,13 @@ class CertificateLayout extends Component {
 									<p className="paragraph">
 										Fundação Universidade Virtual do Estado de São Paulo - CNPJ 17.455.396/0001-64
 									</p>
-									<p className="paragraph">Criação - Lei N° 14.836, de 20/07/2012</p>
+									<p className="paragraph">
+										Criação - Lei Nº 14.836, de 20/07/2012, publicado no DO de 21/07/2012, Seção 1,
+										página 01
+									</p>
 									<p className="paragraph">
 										Credenciamento no Conselho Estadual de Educação de São Paulo - Portaria
-										CEE-GP-120, de 22/03/2013, publicado no DO de 23/03/2013, Seção 1, Página 61
+										CEE-GP-120, de 22/03/2013, publicado no DO de 23/03/2013, Seção 1, página 61
 									</p>
 
 									<p className="paragraph">
@@ -131,19 +131,15 @@ class CertificateLayout extends Component {
 								</div>
 								<div className="zone">
 									<div className="area">
-										<p className="university">
-											Universidade Virtual do Estado de São Paulo - UNIVESP
-										</p>
-										<p className="paragraph -marginBottom">
+										<p className="university -marginBottom">
 											Secretaria de Registro Acadêmico - SRA
 										</p>
 										<p className="paragraph">
-											Diploma registrado sob n° {diploma.degree_number}{' '}
-											{diploma.degree_label.split('.')[5]}
+											Diploma registrado sob n° {diploma.degree_number_seq}
 										</p>
-										<p className="paragraph">processo n° {diploma.process_number}</p>
+										<p className="paragraph">Processo n° {diploma.process_number_seq}</p>
 										<p className="paragraph -marginBottom">
-											nos termos do artigo 48 da lei 9.394, de 20/12/1996, DOU de 23/12/1996.
+											nos termos do artigo 48 da Lei 9.394, de 20/12/1996, DOU de 23/12/1996.
 										</p>
 										<p className="paragraph">
 											São Paulo, {new Date().getDate()} de {months[new Date().getMonth()]} de{' '}
