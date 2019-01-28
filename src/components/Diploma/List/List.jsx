@@ -223,7 +223,8 @@ class DiplomaList extends Component {
 											<UITcol>{row.year_entry_sem}</UITcol>
 											<UITcol>{row.data_conclusao && this.getLastSem(row.data_conclusao)}</UITcol>
 											<UITcol>{row.curso}</UITcol>
-											<UITcol>{row.process_number}</UITcol>
+											<UITcol
+											>{`${row.process_number_seq} e ${row.process_number_diploma}`}</UITcol>
 										</UITrow>
 									))}
 							</Fragment>
@@ -255,7 +256,8 @@ class DiplomaList extends Component {
 											<UITcol>{row.year_entry_sem}</UITcol>
 											<UITcol>{row.data_conclusao && this.getLastSem(row.data_conclusao)}</UITcol>
 											<UITcol>{row.curso}</UITcol>
-											<UITcol>{row.process_number}</UITcol>
+											<UITcol
+											>{`${row.process_number_seq} e ${row.process_number_diploma}`}</UITcol>
 										</UITrow>
 									))
 								) : null}
