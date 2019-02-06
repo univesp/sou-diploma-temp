@@ -50,7 +50,7 @@ class CertificateLayout extends Component {
 							<div className="front">
 								<div className="content">
 									<p className="paragraph">
-										A presidente da <span>Universidade Virtual do Estado de São Paulo</span>,
+										O presidente da <span>Universidade Virtual do Estado de São Paulo</span>,
 									</p>
 									<p className="paragraph -marginBottom">no uso de suas atribuições, outorga a</p>
 									<h1 className="name">{diploma.assumed_name || diploma.nome_aluno}</h1>
@@ -98,7 +98,10 @@ class CertificateLayout extends Component {
 								</div>
 								<div className="signatures">
 									<p className="signature">
-										Rodolfo Jardim de Azevedo<span>Presidente</span>
+										Profa. Dra. Simone Telles Martins Ramos<span>Diretora Acadêmica</span>
+									</p>
+									<p className="signature">
+										Prof. Dr. Rodolfo Jardim de Azevedo<span>Presidente</span>
 									</p>
 									<p className="signature">
 										{diploma.assumed_name || diploma.nome_aluno}
@@ -132,7 +135,7 @@ class CertificateLayout extends Component {
 								<div className="zone">
 									<div className="area">
 										<p className="university -marginBottom">
-											Secretaria de Registro Acadêmico - SRA
+											Secretaria de Registros Acadêmicos - SRA
 										</p>
 										<p className="paragraph">
 											Diploma registrado sob n° {diploma.degree_number_seq}
