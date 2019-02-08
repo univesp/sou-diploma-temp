@@ -86,7 +86,7 @@ class CertificateLayout extends Component {
 											diploma.data_conclusao_certificado.split('-')[0]
 										) : (
 											''
-										)}
+										)}, com 1920 horas,
 									</p>
 									<p className="paragraph -marginBottom">
 										para que possa gozar de todos os direitos e prerrogativas legais.
