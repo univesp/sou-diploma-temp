@@ -15,7 +15,7 @@ const months = [
 	'dezembro'
 ];
 
-class DiplomaLayout extends Component {
+class CertificateLayout extends Component {
 	getState = (state) => {
 		switch (state) {
 			case 'Acre':
@@ -40,18 +40,19 @@ class DiplomaLayout extends Component {
 		}
 	};
 	render() {
-		const { diplomas } = this.props;
+		const { certificates } = this.props;
+
 		return (
 			<Fragment>
-				{diplomas.map((chunk) =>
+				{certificates.map((chunk) =>
 					chunk.map((diploma) => (
-						<div className="diploma" key={diploma.RA}>
+						<div className="diploma -seq" key={diploma.RA}>
 							<div className="front">
 								<div className="content">
 									<p className="paragraph">
 										O presidente da <span>Universidade Virtual do Estado de São Paulo</span>,
 									</p>
-									<p className="paragraph -marginBottom">no uso de suas atribuições, confere a</p>
+									<p className="paragraph -marginBottom">no uso de suas atribuições, outorga a</p>
 									<h1 className="name">{diploma.assumed_name || diploma.nome_aluno}</h1>
 									<p className="paragraph">de nacionalidade {diploma.Nacionalidade},</p>
 									<p className="paragraph">
@@ -65,29 +66,30 @@ class DiplomaLayout extends Component {
 										{diploma.birth_date ? new Date(diploma.birth_date).getFullYear() : ''} e natural
 										do Estado {this.getState(diploma.natural)} {diploma.natural},
 									</p>
-									<p className="paragraph">o grau de</p>
-									<h2 className="course">
-										{diploma.gender === 'M' ? 'Licenciado' : 'Licenciada'} em{' '}
-										{diploma.curso.split(' ')[2]}
-									</h2>
+									<p className="paragraph">o diploma do</p>
+									<h2 className="course">{diploma.seq_course}</h2>
 									<p className="paragraph">
-										obtido em {diploma.data_conclusao ? (
-											diploma.data_conclusao.split('-')[2]
+										concluído em{' '}
+										{diploma.data_conclusao_certificado ? (
+											diploma.data_conclusao_certificado.split('-')[2]
 										) : (
 											''
 										)}{' '}
 										de{' '}
-										{diploma.data_conclusao ? (
-											months[Number(diploma.data_conclusao.split('-')[1]) - 1]
+										{diploma.data_conclusao_certificado ? (
+											months[Number(diploma.data_conclusao_certificado.split('-')[1]) - 1]
 										) : (
 											''
 										)}{' '}
-										de {diploma.data_conclusao ? diploma.data_conclusao.split('-')[0] : ''} no curso
-										de {diploma.curso}
+										de{' '}
+										{diploma.data_conclusao_certificado ? (
+											diploma.data_conclusao_certificado.split('-')[0]
+										) : (
+											''
+										)}
 									</p>
 									<p className="paragraph -marginBottom">
-										para que possa gozar de todos os direitos e prerrogativas legais, outorga-lhe o
-										presente diploma.
+										para que possa gozar de todos os direitos e prerrogativas legais.
 									</p>
 									<p className="paragraph">
 										São Paulo, {new Date().getDate()} de {months[new Date().getMonth()]} de{' '}
@@ -127,8 +129,8 @@ class DiplomaLayout extends Component {
 									</p>
 								</div>
 								<div className="recognized">
-									<p className="paragraph">Curso de {diploma.curso}</p>
-									<p className="paragraph">{diploma.Portaria}</p>
+									<p className="paragraph">{diploma.seq_course}</p>
+									<p className="paragraph">{diploma.seq_portaria}</p>
 								</div>
 								<div className="zone">
 									<div className="area">
@@ -136,9 +138,9 @@ class DiplomaLayout extends Component {
 											Secretaria de Registros Acadêmicos - SRA
 										</p>
 										<p className="paragraph">
-											Diploma registrado sob n° {diploma.degree_number_diploma}
+											Diploma registrado sob n° {diploma.degree_number_seq}
 										</p>
-										<p className="paragraph">Processo n° {diploma.process_number_diploma}</p>
+										<p className="paragraph">Processo n° {diploma.process_number_seq}</p>
 										<p className="paragraph -marginBottom">
 											nos termos do artigo 48 da Lei 9.394, de 20/12/1996, DOU de 23/12/1996.
 										</p>
@@ -168,14 +170,6 @@ class DiplomaLayout extends Component {
 											</p>
 										</div>
 									)}
-									<div className="QR">
-										<p className="paragraph -marginLeft">Verifique a</p>
-										<p className="paragraph -marginLeft">autenticidade</p>
-										<img
-											src={`https://chart.googleapis.com/chart?chs=128x128&cht=qr&chl=https://univesp.br/valida-diploma?ra=${diploma.RA}%26turma=${diploma.class_id}`}
-											alt="QRCode"
-										/>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -186,4 +180,4 @@ class DiplomaLayout extends Component {
 	}
 }
 
-export default DiplomaLayout;
+export default CertificateLayout;

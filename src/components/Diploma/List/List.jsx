@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import Pagination from 'react-js-pagination';
 import ReactToPrint from 'react-to-print';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import Alert from 'react-s-alert';
 import LoadingScreen from 'react-loading-screen';
 
-import DiplomaLayout from '../Layout/Layout';
+import Print from '../../Print/Print';
 
 import { UITable, UIThead, UITbody, UITrow, UITcol } from '../../UI/Table';
 import UILabel from '../../UI/Label';
@@ -58,7 +58,7 @@ class DiplomaList extends Component {
 				history.replace({
 					pathname: location.pathname,
 					state: {}
-				})
+				});
 			}
 		});
 	}
@@ -68,16 +68,24 @@ class DiplomaList extends Component {
 		this.setState({
 			diplomas: search
 				? diplomas.map((chunk) =>
-					chunk.map(
-						(diploma) =>
-							(RegExp(search, 'i').test(diploma.nome_aluno) ||
-								RegExp(search, 'i').test(diploma.curso) ||
-								RegExp(search, 'i').test(diploma.RA)) && !diploma.status_impress
-								? { ...diploma, check: !selectAll }
-								: diploma
+						chunk.map(
+							(diploma) =>
+								(RegExp(search, 'i').test(diploma.nome_aluno) ||
+									RegExp(search, 'i').test(diploma.curso) ||
+									RegExp(search, 'i').test(diploma.RA)) &&
+								!diploma.status_impress
+									? { ...diploma, check: !selectAll }
+									: diploma
+						)
 					)
-				)
-				: diplomas.map((chunk, index) => index === page ? chunk.map((diploma) => (!diploma.status_impress ? { ...diploma, check: !selectAll } : diploma)) : chunk),
+				: diplomas.map(
+						(chunk, index) =>
+							index === page
+								? chunk.map(
+										(diploma) => (!diploma.status_impress ? { ...diploma, check: !selectAll } : diploma)
+									)
+								: chunk
+					),
 			selectAll: !selectAll
 		});
 	};
@@ -94,14 +102,14 @@ class DiplomaList extends Component {
 	};
 
 	getLastSem = (date) => {
-		const dateSplited = date.split('/');
+		const dateSplited = date.split('-');
 		return `${dateSplited[0]}.${Math.ceil(dateSplited[1] / 6)}`;
 	};
 
 	handlePagination = (pageClick) => {
 		const { diplomas } = this.state;
 		const page = pageClick - 1;
-		this.setState({ 
+		this.setState({
 			page,
 			selectAll: diplomas[page].every((diploma) => diploma.check || diploma.status_impress)
 		});
@@ -112,25 +120,21 @@ class DiplomaList extends Component {
 	};
 
 	renderTrigger = () => {
-		const { diplomas } = this.state
-		const checkeds = diplomas.length ? diplomas
-			.reduce((diplomas, chunk) => diplomas.concat(chunk))
-			.filter((diploma) => diploma.check) : [];
-		return (
-			<UIButton disabled={checkeds.length === 0}>
-				Imprimir
-			</UIButton>
-		);
+		const { diplomas } = this.state;
+		const checkeds = diplomas.length
+			? diplomas.reduce((diplomas, chunk) => diplomas.concat(chunk)).filter((diploma) => diploma.check)
+			: [];
+		return <UIButton disabled={checkeds.length === 0}>Imprimir</UIButton>;
 	};
 
 	afterPrint = () => {
 		const { history } = this.props;
 		const { diplomas } = this.state;
+		this.setState({ loading: true });
 		const checkeds = diplomas
 			.reduce((diplomas, chunk) => diplomas.concat(chunk))
 			.filter((diploma) => diploma.check);
-		const ras = checkeds
-			.map((diploma) => diploma.RA);
+		const ras = checkeds.map((diploma) => diploma.RA);
 		ServicesDiplomaApi.patch('print-status', {
 			ras
 		})
@@ -139,7 +143,7 @@ class DiplomaList extends Component {
 					position: 'bottom-right',
 					effect: 'slide'
 				});
-				history.push('/verify', { checkeds })
+				history.push('/verify', { checkeds });
 			})
 			.catch((err) => console.error(err));
 	};
@@ -155,13 +159,8 @@ class DiplomaList extends Component {
 	render() {
 		const { diplomas, loading, search, selectAll, totalItems, perPage, page } = this.state;
 		return (
-			<LoadingScreen
-				loading={loading}
-				bgColor="#FFF"
-				spinnerColor="#ED3B48">
-				<UITitle>
-					Selecione quais alunos deseja imprimir o diploma
-				</UITitle>
+			<LoadingScreen loading={loading} bgColor="#FFF" spinnerColor="#ED3B48">
+				<UITitle>Selecione quais alunos deseja imprimir o diploma</UITitle>
 				<UISearchbox>
 					<UISearch type="text" onChange={this.handleSearch} value={search} />
 					<UIIcon icon={Search} />
@@ -200,7 +199,12 @@ class DiplomaList extends Component {
 											RegExp(search, 'i').test(diploma.RA)
 									)
 									.map((row) => (
-										<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
+										<UITrow
+											action={!row.status_impress}
+											impress={row.status_impress}
+											onClick={(e) => (!row.status_impress ? this.handleSelect(row.RA) : null)}
+											key={row.RA}
+										>
 											<UITcol>
 												{!row.status_impress && (
 													<Fragment>
@@ -219,39 +223,46 @@ class DiplomaList extends Component {
 											<UITcol>{row.year_entry_sem}</UITcol>
 											<UITcol>{row.data_conclusao && this.getLastSem(row.data_conclusao)}</UITcol>
 											<UITcol>{row.curso}</UITcol>
-											<UITcol>{row.process_number}</UITcol>
+											<UITcol
+											>{`${row.process_number_seq} e ${row.process_number_diploma}`}</UITcol>
 										</UITrow>
 									))}
 							</Fragment>
 						) : (
-								<Fragment>
-									{diplomas[page] ? (
-										diplomas[page].map((row) => (
-											<UITrow action={!row.status_impress} impress={row.status_impress} onClick={(e) => !row.status_impress ? this.handleSelect(row.RA) : null} key={row.RA}>
-												<UITcol>
-													{!row.status_impress && (
-														<Fragment>
-															<UICheck checked={row.check} />
-															<UIInput
-																hide="true"
-																type="checkbox"
-																onChange={(e) => this.handleSelect(row.RA)}
-																checked={row.check}
-															/>
-														</Fragment>
-													)}
-												</UITcol>
-												<UITcol>{row.RA}</UITcol>
-												<UITcol>{row.nome_aluno}</UITcol>
-												<UITcol>{row.year_entry_sem}</UITcol>
-												<UITcol>{row.data_conclusao && this.getLastSem(row.data_conclusao)}</UITcol>
-												<UITcol>{row.curso}</UITcol>
-												<UITcol>{row.process_number}</UITcol>
-											</UITrow>
-										))
-									) : null}
-								</Fragment>
-							)}
+							<Fragment>
+								{diplomas[page] ? (
+									diplomas[page].map((row) => (
+										<UITrow
+											action={!row.status_impress}
+											impress={row.status_impress}
+											onClick={(e) => (!row.status_impress ? this.handleSelect(row.RA) : null)}
+											key={row.RA}
+										>
+											<UITcol>
+												{!row.status_impress && (
+													<Fragment>
+														<UICheck checked={row.check} />
+														<UIInput
+															hide="true"
+															type="checkbox"
+															onChange={(e) => this.handleSelect(row.RA)}
+															checked={row.check}
+														/>
+													</Fragment>
+												)}
+											</UITcol>
+											<UITcol>{row.RA}</UITcol>
+											<UITcol>{row.nome_aluno}</UITcol>
+											<UITcol>{row.year_entry_sem}</UITcol>
+											<UITcol>{row.data_conclusao && this.getLastSem(row.data_conclusao)}</UITcol>
+											<UITcol>{row.curso}</UITcol>
+											<UITcol
+											>{`${row.process_number_seq} e ${row.process_number_diploma}`}</UITcol>
+										</UITrow>
+									))
+								) : null}
+							</Fragment>
+						)}
 					</UITbody>
 				</UITable>
 				{totalItems && !search ? (
@@ -280,10 +291,7 @@ class DiplomaList extends Component {
 					content={this.renderContent}
 					onAfterPrint={this.afterPrint}
 				/>
-				<DiplomaLayout
-					diplomas={diplomas.map((chunk) => chunk.filter((item) => item.check))}
-					ref={this.setRef}
-				/>
+				<Print data={diplomas.map((chunk) => chunk.filter((item) => item.check))} ref={this.setRef} />
 			</LoadingScreen>
 		);
 	}

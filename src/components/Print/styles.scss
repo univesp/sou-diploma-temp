@@ -1,0 +1,191 @@
+.container {
+	width: 100%;
+	height: 100%;
+	@media print {
+		@page {
+			size: auto;
+			margin: 0mm;
+		}
+	}
+
+	@media only screen {
+		.diploma {
+			display: none;
+			&.show {
+				display: block;
+			}
+		}
+	}
+
+	.diploma {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		width: 297mm;
+		height: 390mm;
+
+		.front {
+			overflow: hidden;
+			font-family: 'Balthazar', serif;
+			width: 297mm;
+			height: 210mm;
+			margin: 0;
+			padding: 0;
+			margin-top: -1mm;
+
+			.content {
+				display: inline-block;
+				width: 800px;
+				text-align: center;
+				margin: calc(22% - 15px) 0 0 20%;
+				text-transform: uppercase;
+
+				.paragraph {
+					margin: 0;
+					font-weight: lighter;
+					margin-bottom: 1.5px;
+					font-size: 14px;
+
+					&.-marginBottom {
+						margin-bottom: 45px;
+					}
+				}
+				.name {
+					text-transform: uppercase;
+					font-size: 1.8rem;
+					padding: 5px 0;
+				}
+				.course {
+					display: block;
+					font-size: 1.5rem;
+					margin: 25px auto 30px;
+					max-width: 590px;
+				}
+			}
+
+			.signatures {
+				display: flex;
+				margin-top: 50px;
+				justify-content: space-between;
+				.signature {
+					width: 22%;
+					text-align: center;
+					border-top: 1px solid black;
+					span {
+						display: block;
+					}
+					&:first-child {
+						margin-left: 18%;
+					}
+					&:last-child {
+						margin-right: calc(6% + 10px);
+					}
+				}
+			}
+		}
+
+		.back {
+			position: relative;
+			font-family: 'Oxygen', sans-serif;
+			box-sizing: border-box;
+			overflow: hidden;
+			width: 297mm;
+			height: 180mm;
+			margin: 0;
+			padding: 0;
+			padding-top: 3vh;
+
+			.university {
+				margin: 0;
+				font-weight: bold;
+				&.-marginBottom {
+					margin-bottom: 10px;
+				}
+			}
+			.paragraph {
+				font-size: 12px;
+				margin: 0;
+				font-weight: 300;
+				&.-marginBottom {
+					margin-bottom: 10px;
+				}
+				&.-marginLeft {
+					margin-left: 12px;
+				}
+				span {
+					font-weight: bold;
+				}
+			}
+			.recognized {
+				width: 100%;
+				margin-top: 20px;
+				margin-left: 7vh;
+
+				&.-small {
+					letter-spacing: 0.005rem;
+					font-size: 10px;
+					margin-top: 40px;
+				}
+			}
+			.zone {
+				position: relative;
+				display: flex;
+				margin-left: 2vh;
+			}
+			.QR {
+				position: absolute;
+				bottom: 10px;
+				right: 4vh;
+			}
+			.area {
+				display: inline-block;
+				border: 0.02px solid black;
+				margin-top: 50px;
+				padding: 2rem 1rem;
+				text-align: left;
+				&:first-of-type {
+					margin-left: 5vh;
+				}
+				&.-name {
+					height: 50px;
+				}
+				.signatures {
+					display: flex;
+					flex-flow: column;
+					.signature {
+						text-align: center;
+						font-size: 12px;
+						margin: auto;
+						width: 80%;
+						border-top: 1px solid black;
+						margin-top: 35px;
+						span {
+							display: block;
+							font-weight: bold;
+						}
+						&:first-of-type {
+							margin-top: 50px;
+							margin-bottom: 15px;
+						}
+					}
+				}
+			}
+		}
+		&.-seq {
+			.front {
+				.paragraph {
+					margin-bottom: 1px;
+					&.-marginBottom {
+						margin-bottom: 40px;
+					}
+				}
+				.course {
+					margin-bottom: 40px;
+				}
+				.content {
+					margin-top: calc(21% - 10px);
+				}
+			}
+		}
+	}
+}
